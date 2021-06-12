@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<div th:fragment="header">
+    <naw class = "navbar navbar-light navbar-expand-md bg-dark">
+        <div class = "container-fluid">
+            <span class = "text-light"><strong id="nameTitle"></strong> </span>
+            <span class = "text-light">&nbsp;with roles:&nbsp;  </span>
+            <span class = "text-light" id="roleTitle"></span>
+            <ul class="nav navbar-nav flex-nowrap ml-auto">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link text-muted" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </naw>
+</div>
+</body>
+</html>
