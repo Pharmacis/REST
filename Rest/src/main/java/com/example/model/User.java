@@ -10,10 +10,11 @@ import com.example.service.UserService;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table (name = "users")
+@Table (name = "user_rest")
 public class User implements UserDetails {
 
     @Id
@@ -31,7 +32,10 @@ public class User implements UserDetails {
     private String profession;
 
     @ManyToMany(fetch = FetchType.EAGER,
-          cascade = {CascadeType.PERSIST,CascadeType.DETACH, CascadeType.MERGE,CascadeType.REFRESH})
+         cascade = {CascadeType.PERSIST,CascadeType.DETACH, CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinTable(name ="user_role_rest",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     public User() {
@@ -125,5 +129,21 @@ public class User implements UserDetails {
                 ", roles=" + roles +
                 ", profession" + profession +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId ().equals (user.getId ()) &&
+                Objects.equals (getName (), user.getName ()) &&
+                Objects.equals (getPassword (), user.getPassword ()) &&
+                Objects.equals (getProfession (), user.getProfession ());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash (getId (), getName (), getPassword (), getProfession ());
     }
 }
