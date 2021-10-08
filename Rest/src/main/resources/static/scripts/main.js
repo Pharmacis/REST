@@ -23,8 +23,9 @@ function showUsers() {
                 $("#users").append(`<tr id="tr${user.id}"> 
                     <td  id="userId${user.id}" > ${user.id}</td> 
                     <td  id="userName${user.id}" > ${user.name}</td>
-                    <td  id="userName${user.id}" > ${user.profession}</td>
+                    <td  id="userProfession${user.id}" > ${user.profession}</td>
                     <td  id="userRoles${user.id}"></td>
+                    <td style="display:none;" id="userPassword${user.id}">${user.password}</td>
                     <td>
                     <button class="btn btn-info" type="button" data-toggle="modal" data-target="#edit" onclick="openEditeModal( ${user.id})">Edit</button>
                     </td>
@@ -36,7 +37,7 @@ function showUsers() {
                     $(`#userRoles${user.id}`).append('<span>' + role.simpleName + ' </span>');
                 })
             })
-            $("#users").find(`#tr${id}`).remove();
+          //  $("#users").find(`${id}`).remove();
         }
     })
 }
@@ -66,29 +67,42 @@ $('#deleteUser').on('click', function deleteUser() {
 
 //открывает модалку редактирования
 function openEditeModal(id) {
-    let name = $(`#userName${id}`).text()
+    let name = $(`#userName${id}`).text().trim().split(" ");
+    let profession = $(`#userProfession${id}`).text().trim().split(" ");
+    let roles = $(`#userRoles${id}`).text().trim().split(" ");
     $('#idEdite').val(id);
     $('#nameEdite').val(name);
-    $('#professionEdite').val();
+    $('#professionEdite').val(profession);
+    $('#passEdite').val("San")
+    $.each(roles, function(key,value) {
+        $(`#rolesEdit option[value='ROLE_${value}']`).prop('selected', true);
+    });
 }
 
 //кнопка в модалке редактирования
 $('.btn-primary').on('click', function (event) {
     event.preventDefault();
+    let i = $('#idEdite').val();
+    let arrayRole = $('#rolesEdit').val();
     let user = {
         id: $('#idEdite').val(),
         name: $('#nameEdite').val(),
         password: $('#passEdite').val(),
-        profession:  $('#professionEdite').val(),
-        roles :[
+        profession: $('#professionEdite').val(),
+        roles: [
+             {
+            name:
+           arrayRole[0]
+              },
             {
-                name: $('#rolesEdite').val().join()
-            }]
-
+              name:
+              arrayRole[1]
+            }
+        ]
     };
 
 
-    $.ajax('/users/edit', {
+    $.ajax('/users/'+i, {
         data: JSON.stringify(user),
         dataType: 'json',
         contentType: 'application/JSON; charset=utf-8',
@@ -102,14 +116,19 @@ $('.btn-primary').on('click', function (event) {
 //добавление юзера
 $('.btn-success').on('click', function (event) {
     event.preventDefault();
+    let arrayRole = $('#addRole').val();
     let user;
     user = {
         name: $('#addName').val(),
         profession:  $('#addProfession').val(),
         password: $('#addPass').val(),
-        roles: [{name: $('#addRole').val().join()}]
+        roles: [
+            {name: arrayRole[0]
+            },
+            { name: arrayRole[1]}
+            ]
     };
-    $.ajax('/users/add', {
+    $.ajax('/users/', {
         data: JSON.stringify(user),
         dataType: 'json',
         contentType: 'application/JSON; charset=utf-8',

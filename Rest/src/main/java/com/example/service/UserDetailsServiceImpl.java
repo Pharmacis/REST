@@ -14,7 +14,6 @@ import java.util.HashSet;
 
 
 @Service
-@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
@@ -26,7 +25,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        return userRepository.findByName(name);
+        UserDetails userDetails = (UserDetails) userRepository.findUserAndRolesByName (name);
+           if(userDetails == null){
+             throw new UsernameNotFoundException ("UserDetailsServiceImpl return null");
+           }
+            else {
+             return userDetails;
+           }
     }
-
 }

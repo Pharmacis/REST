@@ -31,10 +31,10 @@ public class AdminController {
     @GetMapping(value = "users/userAuth")
 
     public ResponseEntity<User> getUserAuth() {
-        User user = (User) SecurityContextHolder
+         User user = (User) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getPrincipal();
+                 .getPrincipal ();
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -51,26 +51,25 @@ public class AdminController {
     }
 
     @DeleteMapping(value = "/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable("id") Long userId) {
+    public ResponseEntity deleteUser(@PathVariable("id") Long userId) {
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/users/add")
+    @PostMapping(value = "/users/")
     public ResponseEntity<User> addUser(@RequestBody User user){
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        userService.addUser(user);
+        userService.addUser (user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/users/edit")
+    @PutMapping(value = "/users/{id}")
     public ResponseEntity<User> editUser(@RequestBody User user) {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-       // user.setRoles (new HashSet<Role>(Collections.singleton (role)));
         userService.addUser(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }

@@ -81,10 +81,10 @@
                                                 <label><strong>Role</strong><br></label><select
                                                     class="border rounded form-control form-control-sm"
                                                     id="addRole"
-                                                    multiple=""
+                                                    multiple="multiple"
                                                     name="select">
-                                                <option value="ROLE_ADMIN" >ADMIN</option>
-                                                <option value="ROLE_USER">USER</option>
+                                                <option  value="ROLE_ADMIN" >ADMIN</option>
+                                                <option selected="selected" value="ROLE_USER">USER</option>
                                             </select></div>
                                             <div class="form-group">
                                                 <button class="btn btn-success btn-sm text-light">Add new user
@@ -132,8 +132,7 @@
                                     id="nameEdite">
                             </div>
                             <div class="form-group">
-                                <label><strong>Profession
-                                    name</strong><br></label>
+                                <label><strong>Profession</strong><br></label>
                                 <input
                                     class="form-control form-control-sm"
                                     type="text"
@@ -143,31 +142,30 @@
                                 <label><strong>Password</strong><br></label><input
                                     class="form-control form-control-sm"
                                     type="password"
-                                    id="passEdite"
-                                    value="San">
+                                    id="passEdite">
                             </div>
                             <div class="form-group">
                                 <label><strong>Role</strong><br></label><select
                                     class="border rounded form-control form-control-sm"
-                                    multiple=""
-                                    id="rolesEdite"
+                                    multiple="multiple"
+                                    id="rolesEdit"
                                     name="select">
 
-                                <option value="ROLE_ADMIN">ADMIN</option>
-                                <option value="ROLE_USER">USER</option>
+                                <option  value="ROLE_ADMIN">ADMIN</option>
+                                <option  value="ROLE_USER">USER</option>
                             </select>
                             </div>
 
                             <div class="modal-footer">
                                 <a class="btn btn-secondary" type="button" data-dismiss="modal">Close</a>
-                                <a class="btn btn-primary text-light" type="button" data-dismiss="modal">Edite</a>
-                            </div>
-                        </form>
+                                <a class="btn btn-primary text-light" type="button" data-dismiss="modal">Edit</a>
                     </div>
+                        </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <div class="modal fade" role="dialog" tabindex="-1" id="delete">
@@ -212,6 +210,7 @@
         </div>
     </div>
 </div>
+</div>
 <!--SCRIPTS-->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -223,5 +222,6 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <script src="scripts/main.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.example.model;
 
-import com.sun.istack.internal.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.sun.istack.internal.NotNull;
 import org.hibernate.Hibernate;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,7 +33,7 @@ public class User implements UserDetails {
     @Column
     private String profession;
 
-    @ManyToMany(fetch = FetchType.EAGER,
+    @ManyToMany(fetch = FetchType.LAZY,
          cascade = {CascadeType.PERSIST,CascadeType.DETACH, CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name ="user_role_rest",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -127,7 +129,7 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", name ='" + name + '\'' +
                 ", roles=" + roles +
-                ", profession" + profession +
+                ", profession=" + profession +
                 '}';
     }
 

@@ -28,6 +28,5 @@ public class HelloController {
     @GetMapping(value = "/user")
     public String printUserPage() {
         return "user";
-
     }
 }
