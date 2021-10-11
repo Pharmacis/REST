@@ -72,15 +72,6 @@ public class UserServiceImp implements UserService {
         }else{
             user.setPassword (bCryptPasswordEncoder.encode (user.getPassword ()));
         }
-        if(user.getRoles ()!=null) {
-            Set<Role> roles = new HashSet<> ();
-            for (Role role : user.getRoles ()) {
-                roles.add (roleRepository.getRoleByName (role.getName ()));
-            }
-            user.setRoles (roles);
-        }else{
-            user.setRoles (userByDB.getRoles ());
-        }
         return userRepository.save (user);
     }
 }

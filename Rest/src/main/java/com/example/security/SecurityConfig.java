@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/login","/oauth2/authorization/google").permitAll ()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**","/users/**").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin()

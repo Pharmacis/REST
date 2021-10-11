@@ -28,7 +28,7 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "users/userAuth")
+    @GetMapping(value = "user/userAuth")
 
     public ResponseEntity<User> getUserAuth() {
          User user = (User) SecurityContextHolder

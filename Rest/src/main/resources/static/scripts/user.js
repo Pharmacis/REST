@@ -1,5 +1,5 @@
 $('document').ready(function () {
-    $.ajax('users/userAuth', {
+    $.ajax('user/userAuth', {
         success: function (user) {
             $('#nameTitle').text(user.name);
             $('#id').text(user.id);

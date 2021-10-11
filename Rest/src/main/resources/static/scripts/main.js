@@ -1,5 +1,5 @@
 $('document').ready(function () {
-    $.ajax('/users/userAuth', {
+    $.ajax('/user/userAuth', {
         method: 'GET',
         success: function (user) {
             $('#nameTitle').text(user.name);
@@ -75,7 +75,7 @@ function openEditeModal(id) {
     $('#professionEdite').val(profession);
     $('#passEdite').val("San")
     $.each(roles, function(key,value) {
-        $(`#rolesEdit option[value='ROLE_${value}']`).prop('selected', true);
+        $(`#rolesEdit option:contains('${value}')`).prop('selected', true);
     });
 }
 
@@ -88,18 +88,29 @@ $('.btn-primary').on('click', function (event) {
         id: $('#idEdite').val(),
         name: $('#nameEdite').val(),
         password: $('#passEdite').val(),
-        profession: $('#professionEdite').val(),
-        roles: [
-             {
-            name:
-           arrayRole[0]
-              },
+        profession: $('#professionEdite').val()}
+    if(arrayRole.length>1) {
+           user.roles= [
+                {
+                    id: arrayRole[0].slice(0, 1),
+                    name:
+                        arrayRole[0].slice(2)
+                },
+                {
+                    id: arrayRole[1].slice(0, 1),
+                    name:
+                        arrayRole[1].slice(2)
+                }
+            ]
+    }else{
+        user.roles= [
             {
-              name:
-              arrayRole[1]
+                id: arrayRole[0].slice(0, 1),
+                name:
+                    arrayRole[0].slice(2)
             }
-        ]
-    };
+            ]
+    }
 
 
     $.ajax('/users/'+i, {
