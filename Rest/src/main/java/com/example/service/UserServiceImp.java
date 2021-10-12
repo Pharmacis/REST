@@ -37,11 +37,6 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public void addUser(User user) {
-        Set<Role> roles = new HashSet<> ();
-        for ( Role role: user.getRoles()) {
-            roles.add (roleRepository.getRoleByName (role.getName ()));
-        }
-        user.setRoles (roles);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

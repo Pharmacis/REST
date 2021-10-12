@@ -34,7 +34,7 @@ public class User implements UserDetails {
     private String profession;
 
     @ManyToMany(fetch = FetchType.LAZY,
-         cascade = {CascadeType.PERSIST,CascadeType.DETACH, CascadeType.MERGE,CascadeType.REFRESH})
+         cascade = {CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name ="user_role_rest",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

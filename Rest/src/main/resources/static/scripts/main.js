@@ -10,7 +10,6 @@ $('document').ready(function () {
     })
     showUsers();
 })
-
 //строит таблицу всех юзеров
 function showUsers() {
     $('#users').empty();
@@ -41,117 +40,115 @@ function showUsers() {
         }
     })
 }
+//добавляет роли пользователю
 
 //открывает модалку для удаления
-function openDeleteModal(id) {
-    let name = $(`#userName${id}`).text()
-    let roles = $(`#userRoles${id}`).text().trim().split(" ");
-    $('#delete #id').val(id);
-    $('#delete #name').val(name);
-    $('#delete #roles').empty();
-    $.each(roles, function (key, value) {
-        $('#delete #roles').append(`<option value='key'>' ${value} </option>`);
-    });
-}
+    function openDeleteModal(id) {
+        let name = $(`#userName${id}`).text()
+        let roles = $(`#userRoles${id}`).text().trim().split(" ");
+        $('#delete #id').val(id);
+        $('#delete #name').val(name);
+        $('#delete #roles').empty();
+        $.each(roles, function (key, value) {
+            $('#delete #roles').append(`<option value='key'>' ${value} </option>`);
+        });
+    }
 
 //кнопка в модалке удаляет юзверя
-$('#deleteUser').on('click', function deleteUser() {
-    let id = $('#delete #id').val();
-    $.ajax('/users/' + id, {
-        method: 'DELETE',
-        success: function () {
-            $("#users").find(`#tr${id}`).remove();
-        }
+    $('#deleteUser').on('click', function deleteUser() {
+        let id = $('#delete #id').val();
+        $.ajax('/users/' + id, {
+            method: 'DELETE',
+            success: function () {
+                $("#users").find(`#tr${id}`).remove();
+            }
+        })
     })
-})
 
 //открывает модалку редактирования
-function openEditeModal(id) {
-    let name = $(`#userName${id}`).text().trim().split(" ");
-    let profession = $(`#userProfession${id}`).text().trim().split(" ");
-    let roles = $(`#userRoles${id}`).text().trim().split(" ");
-    $('#idEdite').val(id);
-    $('#nameEdite').val(name);
-    $('#professionEdite').val(profession);
-    $('#passEdite').val("San")
-    $.each(roles, function(key,value) {
-        $(`#rolesEdit option:contains('${value}')`).prop('selected', true);
-    });
-}
-
+    function openEditeModal(id) {
+        let name = $(`#userName${id}`).text().trim().split(" ");
+        let profession = $(`#userProfession${id}`).text().trim().split(" ");
+        let roles = $(`#userRoles${id}`).text().trim().split(" ");
+        $('#idEdite').val(id);
+        $('#nameEdite').val(name);
+        $('#professionEdite').val(profession);
+        $('#passEdite').val("San")
+        $.each(roles, function (key, value) {
+            $(`#rolesEdit option:contains('${value}')`).prop('selected', true);
+        });
+    }
 //кнопка в модалке редактирования
-$('.btn-primary').on('click', function (event) {
-    event.preventDefault();
-    let i = $('#idEdite').val();
-    let arrayRole = $('#rolesEdit').val();
-    let user = {
-        id: $('#idEdite').val(),
-        name: $('#nameEdite').val(),
-        password: $('#passEdite').val(),
-        profession: $('#professionEdite').val()}
-    if(arrayRole.length>1) {
-           user.roles= [
-                {
-                    id: arrayRole[0].slice(0, 1),
-                    name:
-                        arrayRole[0].slice(2)
-                },
-                {
-                    id: arrayRole[1].slice(0, 1),
-                    name:
-                        arrayRole[1].slice(2)
-                }
-            ]
-    }else{
-        user.roles= [
+    $('.btn-primary').on('click', function (event) {
+        event.preventDefault();
+        let i = $('#idEdite').val();
+        let arrayRole = $('#rolesEdit').val();
+        let user = {
+            id: $('#idEdite').val(),
+            name: $('#nameEdite').val(),
+            password: $('#passEdite').val(),
+            profession: $('#professionEdite').val()
+        }
+        addRole(arrayRole, user);
+        $.ajax('/users/' + i, {
+            data: JSON.stringify(user),
+            dataType: 'json',
+            contentType: 'application/JSON; charset=utf-8',
+            method: 'PUT',
+            success: function () {
+                showUsers();
+            }
+        })
+    })
+
+//добавление юзера
+    $('.btn-success').on('click', function (event) {
+        event.preventDefault();
+        let arrayRole = $('#addRole').val();
+        let user = {
+            name: $('#addName').val(),
+            profession: $('#addProfession').val(),
+            password: $('#addPass').val()
+        }
+        addRole(arrayRole, user);
+        $.ajax('/users', {
+            data: JSON.stringify(user),
+            dataType: 'json',
+            contentType: 'application/JSON; charset=utf-8',
+            method: 'POST',
+            success: function () {
+                $('#tab1').addClass('active');
+                $('#tab-1').addClass('active');
+                $('#tab2').removeClass('active');
+                $('#tab-2').removeClass('active');
+                $('#addName').val('User name');
+                $('#addPass').val('Password');
+                showUsers();
+            }
+        })
+    })
+function addRole(arrayRole,user){
+    if (arrayRole.length > 1) {
+        user.roles = [
             {
                 id: arrayRole[0].slice(0, 1),
                 name:
                     arrayRole[0].slice(2)
-            }
-            ]
-    }
-
-
-    $.ajax('/users/'+i, {
-        data: JSON.stringify(user),
-        dataType: 'json',
-        contentType: 'application/JSON; charset=utf-8',
-        method: 'PUT',
-        success: function () {
-            showUsers();
-        }
-    })
-})
-
-//добавление юзера
-$('.btn-success').on('click', function (event) {
-    event.preventDefault();
-    let arrayRole = $('#addRole').val();
-    let user;
-    user = {
-        name: $('#addName').val(),
-        profession:  $('#addProfession').val(),
-        password: $('#addPass').val(),
-        roles: [
-            {name: arrayRole[0]
             },
-            { name: arrayRole[1]}
-            ]
-    };
-    $.ajax('/users/', {
-        data: JSON.stringify(user),
-        dataType: 'json',
-        contentType: 'application/JSON; charset=utf-8',
-        method: 'POST',
-        success: function () {
-            $('#tab1').addClass('active');
-            $('#tab-1').addClass('active');
-            $('#tab2').removeClass('active');
-            $('#tab-2').removeClass('active');
-            $('#addName').val('User name');
-            $('#addPass').val('Password');
-            showUsers();
-        }
-    })
-})
+            {
+                id: arrayRole[1].slice(0, 1),
+                name:
+                    arrayRole[1].slice(2)
+            }
+        ]
+    } else {
+        user.roles = [
+            {
+                id: arrayRole[0].slice(0,1),
+                name:
+                    arrayRole[0].slice(2)
+            }
+        ]
+    }
+}
+

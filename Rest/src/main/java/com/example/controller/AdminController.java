@@ -56,7 +56,7 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/users/")
+    @PostMapping(value = "/users")
     public ResponseEntity<User> addUser(@RequestBody User user){
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
