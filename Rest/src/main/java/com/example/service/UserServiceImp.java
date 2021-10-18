@@ -69,4 +69,9 @@ public class UserServiceImp implements UserService {
         }
         return userRepository.save (user);
     }
+
+    @Override
+    public User getUserByName(String name) {
+        return userRepository.findUserAndRolesByName (name);
+    }
 }

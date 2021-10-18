@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.example.service.UserService;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -33,8 +35,8 @@ public class User implements UserDetails {
     @Column
     private String profession;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-         cascade = {CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY)
+        // cascade = {CascadeType.ALL})
     @JoinTable(name ="user_role_rest",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
